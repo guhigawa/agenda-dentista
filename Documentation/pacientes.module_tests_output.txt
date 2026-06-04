@@ -1,0 +1,156 @@
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [InstanceLoader] FirebaseModule dependencies initialized +0ms
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [InstanceLoader] PacientesModule dependencies initialized +0ms
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [RoutesResolver] PacientesController {/pacientes}: +16ms
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [RouterExplorer] Mapped {/pacientes, POST} route +3ms
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [RouterExplorer] Mapped {/pacientes, GET} route +1ms
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [RouterExplorer] Mapped {/pacientes/:id, GET} route +1ms
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [RouterExplorer] Mapped {/pacientes/:id, PATCH} route +0ms
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [RouterExplorer] Mapped {/pacientes/:id, DELETE} route +1ms
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [FirebaseService] Firebase initialized successfully
+[Nest] 97948  - 06/03/2026, 11:32:04 PM     LOG [NestApplication] Nest application successfully started +1ms
+
+TESTE USANDO PACIENTES.HTTP
+### Criar paciente
+POST http://localhost:3000/pacientes
+Content-Type: application/json
+
+{
+    "nome": "João Teste",
+    "telefone": "11999999999",
+    "email": "joao@teste.com",
+    "dataNascimento": "1990-01-01"
+}
+
+output
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 210
+ETag: W/"d2-U3tXHBfHZwQSnIt3idmXM3JvgrE"
+Date: Thu, 04 Jun 2026 00:20:00 GMT
+Connection: close
+
+{
+  "id": "jiRoyLxcysPoRm9XaKZW",
+  "nome": "João Teste",
+  "telefone": "11999999999",
+  "email": "joao@teste.com",
+  "dataNascimento": "1990-01-01",
+  "criadoEm": "2026-06-04T00:19:59.284Z",
+  "atualizadoEm": "2026-06-04T00:19:59.284Z"
+}
+
+### Listar pacientes
+GET http://localhost:3000/pacientes
+
+output
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 212
+ETag: W/"d4-LJs6CaHkddgYIzn1eWU/OYVzs2U"
+Date: Thu, 04 Jun 2026 00:21:56 GMT
+Connection: close
+
+[
+  {
+    "id": "jiRoyLxcysPoRm9XaKZW",
+    "nome": "João Teste",
+    "telefone": "11999999999",
+    "email": "joao@teste.com",
+    "dataNascimento": "1990-01-01",
+    "criadoEm": "2026-06-04T00:19:59.284Z",
+    "atualizadoEm": "2026-06-04T00:19:59.284Z"
+  }
+]
+
+### Obter paciente por ID
+GET http://localhost:3000/pacientes/jiRoyLxcysPoRm9XaKZW
+
+output
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 210
+ETag: W/"d2-U3tXHBfHZwQSnIt3idmXM3JvgrE"
+Date: Thu, 04 Jun 2026 00:22:57 GMT
+Connection: close
+
+{
+  "id": "jiRoyLxcysPoRm9XaKZW",
+  "nome": "João Teste",
+  "telefone": "11999999999",
+  "email": "joao@teste.com",
+  "dataNascimento": "1990-01-01",
+  "criadoEm": "2026-06-04T00:19:59.284Z",
+  "atualizadoEm": "2026-06-04T00:19:59.284Z"
+}
+
+### Atualizar paciente
+PATCH http://localhost:3000/pacientes/jiRoyLxcysPoRm9XaKZW
+Content-Type: application/json
+
+{
+  "telefone": "11888880000"
+}
+
+output
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 210
+ETag: W/"d2-sGCuOWEgP6s3v5/vJx2U4pbiVv4"
+Date: Thu, 04 Jun 2026 00:28:41 GMT
+Connection: close
+
+{
+  "id": "jiRoyLxcysPoRm9XaKZW",
+  "nome": "João Teste",
+  "email": "joao@teste.com",
+  "dataNascimento": "1990-01-01",
+  "criadoEm": "2026-06-04T00:19:59.284Z",
+  "telefone": "11888880000",
+  "atualizadoEm": "2026-06-04T00:28:40.717Z"
+}
+
+### Deletar paciente
+DELETE http://localhost:3000/pacientes/jiRoyLxcysPoRm9XaKZW
+
+output
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 66
+ETag: W/"42-tXhJrB9aE3uONOPi9uJnTHb2hSc"
+Date: Thu, 04 Jun 2026 00:29:13 GMT
+Connection: close
+
+{
+  "mensagem": "Paciente jiRoyLxcysPoRm9XaKZW excluído com sucesso"
+}
+
+Para confirmar rodei o get all pacientes
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 2
+ETag: W/"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w"
+Date: Thu, 04 Jun 2026 00:29:50 GMT
+Connection: close
+
+[]
+
+e a busca pelo id
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 103
+ETag: W/"67-9jeshI8y6D1ibywJp+qIiXEa2Dk"
+Date: Thu, 04 Jun 2026 00:30:13 GMT
+Connection: close
+
+{
+  "message": "Paciente com ID jiRoyLxcysPoRm9XaKZW não encontrado",
+  "error": "Not Found",
+  "statusCode": 404
+}

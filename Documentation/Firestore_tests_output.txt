@@ -1,0 +1,40 @@
+TESTE Firestore
+CÓDIGO NO MAIN:
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { FirebaseService } from './firebase/firebase.service';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(new ValidationPipe());
+
+  await app.init();
+
+  const firebase = app.get(FirebaseService);
+  await firebase.firestore.collection('teste').add({
+    ok: true,
+    timestamp: new Date(),
+  });
+  console.log('Firestore funcionando!');
+
+  await app.listen(3000);
+}
+bootstrap();
+
+
+BASH:
+ubuntu@ubuntu-2204:~/Downloads/agenda-dentista-backend$ npm run start
+
+> agenda-dentista-backend@0.0.1 start
+> nest start
+
+[Nest] 69209  - 05/25/2026, 9:17:45 PM     LOG [NestFactory] Starting Nest application...
+[Nest] 69209  - 05/25/2026, 9:17:45 PM     LOG [InstanceLoader] AppModule dependencies initialized +15ms
+[Nest] 69209  - 05/25/2026, 9:17:45 PM     LOG [InstanceLoader] ConfigHostModule dependencies initialized +0ms
+[Nest] 69209  - 05/25/2026, 9:17:45 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +0ms
+[Nest] 69209  - 05/25/2026, 9:17:45 PM     LOG [InstanceLoader] FirebaseModule dependencies initialized +0ms
+[Nest] 69209  - 05/25/2026, 9:17:46 PM     LOG [FirebaseService] Firebase initialized successfully
+[Nest] 69209  - 05/25/2026, 9:17:46 PM     LOG [NestApplication] Nest application successfully started +1ms
+Firestore funcionando!
