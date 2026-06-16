@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { FirebaseModule } from './firebase/firebase.module';
 import { PacientesModule } from './pacientes/pacientes.module';
+import { CalendarModule } from './calendar/calendar.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { PacientesModule } from './pacientes/pacientes.module';
     }),
     FirebaseModule,
     PacientesModule,
+    CalendarModule,
   ],
 })
 export class AppModule {}
