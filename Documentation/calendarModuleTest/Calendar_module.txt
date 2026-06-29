@@ -1,0 +1,29 @@
+teste na main
+const calendar = app.get(CalendarService);
+
+  const eventId = await calendar.criarEvento({
+    titulo: 'Consulta teste - Cliente teste',
+    dataInicio: '2026-06-27T14:00:00-03:00',
+    dataFim: '2026-06-27T15:00:00-03:00',
+    descricao: 'Descrição teste',
+  });
+  console.log('Evento criado com ID:', eventId);
+
+  [Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [NestFactory] Starting Nest application...
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [InstanceLoader] AppModule dependencies initialized +25ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [InstanceLoader] ConfigHostModule dependencies initialized +0ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +1ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [InstanceLoader] FirebaseModule dependencies initialized +0ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [InstanceLoader] CalendarModule dependencies initialized +0ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [InstanceLoader] PacientesModule dependencies initialized +0ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [RoutesResolver] PacientesController {/pacientes}: +95ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [RouterExplorer] Mapped {/pacientes, POST} route +4ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [RouterExplorer] Mapped {/pacientes, GET} route +1ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [RouterExplorer] Mapped {/pacientes/:id, GET} route +2ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [RouterExplorer] Mapped {/pacientes/:id, PATCH} route +1ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [RouterExplorer] Mapped {/pacientes/:id, DELETE} route +3ms
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [FirebaseService] Firebase initialized successfully
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [CalendarService] Google Calendar inicializado com sucesso
+[Nest] 30078  - 06/26/2026, 5:47:05 PM     LOG [NestApplication] Nest application successfully started +1ms
+[Nest] 30078  - 06/26/2026, 5:47:07 PM     LOG [CalendarService] Evento criado com sucesso: 1pl35o5r38fqqjjnug8hfnkffo
+Evento criado com ID: 1pl35o5r38fqqjjnug8hfnkffo
