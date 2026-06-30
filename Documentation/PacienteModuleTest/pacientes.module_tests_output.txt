@@ -40,6 +40,30 @@ Connection: close
   "atualizadoEm": "2026-06-04T00:19:59.284Z"
 }
 
+### Tentar criar com mesmo telefone — deve retornar 409
+POST http://localhost:3000/pacientes
+Content-Type: application/json
+
+{
+  "nome": "Outro Nome",
+  "telefone": "11999999999"
+}
+
+output
+HTTP/1.1 409 Conflict
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 98
+ETag: W/"62-aiWDS28sceCDnM4TrbC90/4kTA0"
+Date: Tue, 30 Jun 2026 17:27:12 GMT
+Connection: close
+
+{
+  "message": "Paciente já cadastrado com telefone 11999999999",
+  "error": "Conflict",
+  "statusCode": 409
+}
+
 ### Listar pacientes
 GET http://localhost:3000/pacientes
 

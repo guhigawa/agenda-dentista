@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'; // Inectable é um decorator obrigatório para todo Service, marca a classe para o sistema de injeção do NestJS, NotFoundException retorna HTTP 404 automaticamente quando lançada
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common'; // Inectable é um decorator obrigatório para todo Service, marca a classe para o sistema de injeção do NestJS, NotFoundException retorna HTTP 404 automaticamente quando lançada
 import { FirebaseService } from '../firebase/firebase.service'; // Importa o serviço de Firebase para acessar o Firestore, é necessário para realizar as operações de CRUD no banco de dados
 import { CriarPacienteDto } from './dto/criar-paciente.dto'; // Importa o DTO de criação de paciente, define a estrutura dos dados que serão recebidos para criar um novo paciente, garante que os dados estejam no formato correto e atendam aos requisitos definidos
 
@@ -11,6 +11,17 @@ export class PacientesService {
 
   // CREATE - Criar um novo paciente
   async criar(dto: CriarPacienteDto) {
+    const snapshot = await this.firebase.firestore
+      .collection(this.colecaopaciente)
+      .where('telefone', '==', dto.telefone)
+      .get();
+
+    if (!snapshot.empty) {
+      throw new ConflictException(
+        `Paciente já cadastrado com telefone ${dto.telefone}`,
+      );
+    }
+
     const paciente = {
       ...dto, // ... = Spread operator, os tres pontos antes do dto copiam todos os campos do objeto dto
       criadoEm: new Date().toISOString(),

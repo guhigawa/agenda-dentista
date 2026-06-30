@@ -9,6 +9,15 @@ Content-Type: application/json
     "dataNascimento": "1990-01-01"
 }
 
+### Tentar criar com mesmo telefone — deve retornar 409
+POST http://localhost:3000/pacientes
+Content-Type: application/json
+
+{
+  "nome": "Outro Nome",
+  "telefone": "11999999999"
+}
+
 ### Criar paciente com dados incompletos (deve retornar erro)
 POST http://localhost:3000/pacientes
 Content-Type: application/json
