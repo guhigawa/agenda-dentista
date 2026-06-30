@@ -29,6 +29,8 @@ export class CalendarService implements OnApplicationBootstrap {
   }
   //Create - criação do evento de na agenda
   async criarEvento(dto: CriarEventoDto): Promise<string> {
+    await this.verificarDisponibilidadePorHorario(dto.dataInicio, dto.dataFim);
+
     const response = await this.calendar.events.insert({ //calendar.events.insert() método api da google para criar um evento 
       calendarId: this.config.get<string>('GOOGLE_CALENDAR_ID'),
       requestBody: {
