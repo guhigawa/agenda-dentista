@@ -1,0 +1,100 @@
+teste na main
+Estrutura de teste:
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { CalendarService } from './calendar/calendar.service';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(new ValidationPipe());
+
+  await app.init();
+
+  //Teste temporario
+  const calendar = app.get(CalendarService);
+  // Teste 1 — verificar inicialização
+  console.log('Testando Calendar...');
+
+  // Teste 2 — listar eventos de hoje
+  const hoje = new Date().toISOString().split('T')[0]; // "2026-06-10"
+  const eventos = await calendar.listarEventosDoDia(hoje);
+  console.log(`Eventos hoje (${hoje}):`, eventos.length);
+
+  // Teste 3 — verificar horários disponíveis
+  const disponiveis = await calendar.verificarDisponibilidade(hoje);
+  console.log('Horários disponíveis:', disponiveis);
+
+  // Teste 4 — criar evento de teste
+  const eventId = await calendar.criarEvento({
+    titulo: 'TESTE — Consulta João Silva',
+    dataInicio: `${hoje}T16:00:00-03:00`,
+    dataFim: `${hoje}T17:00:00-03:00`,
+    descricao: 'Evento de teste — pode deletar',
+  });
+  console.log('Evento criado com ID:', eventId);
+
+  // Teste 5 — tentar criar no mesmo horário (deve lançar 409)
+  try {
+    await calendar.criarEvento({
+      titulo: 'TESTE — Duplicado',
+      dataInicio: `${hoje}T16:00:00-03:00`,
+      dataFim: `${hoje}T17:00:00-03:00`,
+    });
+  } catch (erro) {
+    if (erro instanceof Error) {
+      console.log('Conflito detectado corretamente:', erro.message);
+    }
+  }
+
+  // Teste 6 — cancelar o evento criado
+  await calendar.cancelarEvento(eventId);
+  console.log('Evento cancelado:', eventId);
+
+  await app.listen(3000);
+}
+bootstrap();
+
+OUTPUT TERMINAL:
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [NestFactory] Starting Nest application...
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [InstanceLoader] AppModule dependencies initialized +11ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [InstanceLoader] ConfigHostModule dependencies initialized +1ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [InstanceLoader] ConfigModule dependencies initialized +0ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [InstanceLoader] FirebaseModule dependencies initialized +0ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [InstanceLoader] CalendarModule dependencies initialized +0ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [InstanceLoader] PacientesModule dependencies initialized +1ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [RoutesResolver] PacientesController {/pacientes}: +77ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [RouterExplorer] Mapped {/pacientes, POST} route +4ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [RouterExplorer] Mapped {/pacientes, GET} route +0ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [RouterExplorer] Mapped {/pacientes/:id, GET} route +1ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [RouterExplorer] Mapped {/pacientes/:id, PATCH} route +1ms
+[Nest] 10204  - 30/06/2026, 12:43:00     LOG [RouterExplorer] Mapped {/pacientes/:id, DELETE} route +0ms
+[Nest] 10204  - 30/06/2026, 12:43:01     LOG [FirebaseService] Firebase initialized successfully
+[Nest] 10204  - 30/06/2026, 12:43:01     LOG [CalendarService] Google Calendar inicializado com sucesso
+[Nest] 10204  - 30/06/2026, 12:43:01     LOG [NestApplication] Nest application successfully started +0ms
+Testando Calendar...
+Eventos hoje (2026-06-30): 1
+Horários disponíveis: [
+  '08:00', '09:00',
+  '10:00', '11:00',
+  '13:00', '14:00',
+  '15:00', '17:00'
+]
+D:\projetos\agenda-dentista\src\calendar\calendar.service.ts:116
+      throw new ConflictException(
+            ^
+
+ConflictException: Já existe uma consulta agendada nesse horário
+    at CalendarService.verificarDisponibilidadePorHorario (D:\projetos\agenda-dentista\src\calendar\calendar.service.ts:116:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async CalendarService.criarEvento (D:\projetos\agenda-dentista\src\calendar\calendar.service.ts:32:5)
+    at async bootstrap (D:\projetos\agenda-dentista\src\main.ts:28:19) {
+  response: {
+    message: 'Já existe uma consulta agendada nesse horário',
+    error: 'Conflict',
+    statusCode: 409
+  },
+  status: 409,
+  options: {}
+}
